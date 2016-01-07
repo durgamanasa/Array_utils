@@ -74,9 +74,8 @@ void* findLast(ArrayUtil util, MatchFunc* match, void* hint){
 
 int count(ArrayUtil util, MatchFunc* match, void* hint){
 	int count = 0;
-	MatchFunc even = *match;
 	for (int i = 0; i < util.length; i++){
-		if (even(hint,util.base+i *util.typeSize)){
+		if ((*match)(hint,util.base+i *util.typeSize)){
 			count++;
 		}
 	}
@@ -84,10 +83,10 @@ int count(ArrayUtil util, MatchFunc* match, void* hint){
 };
 
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems){
-	MatchFunc even = *match;int count = 0;
+	int count = 0;
 	unsigned char ** dest = (unsigned char **)destination;
 	for (int i = 0; i < util.length; i++){
-		if (even(&hint,util.base+i *util.typeSize) && i < maxItems){
+		if ((*match)(&hint,util.base+i *util.typeSize) && i < maxItems){
 			dest[i] = util.base+i *util.typeSize; 	
 			count++;
 		}
@@ -95,7 +94,27 @@ int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int
 	return count;
 };
 
+void get_square(void* hint, void* sourceItem, void* destinationItem){
+	int src_value = *(int *)sourceItem;
+	int square = src_value * src_value;
+	*(int *)destinationItem = square;
+};
 
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint){
+	for (int i = 0; i < source.length; i++){
+		(*convert)(&hint, source.base+i *source.typeSize, destination.base+i *destination.typeSize);
+	} 	
+};
+
+void increment_by_10(void* hint, void* item){
+	*(int *)item+= 10;
+};
+
+void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
+	for (int i = 0; i < util.length; i++){
+		(*operation)(&hint, util.base+i *util.typeSize);
+	}
+};
 
 
 
