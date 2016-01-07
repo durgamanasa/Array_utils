@@ -116,6 +116,18 @@ void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
 	}
 };
 
+void* sum_of_list(void* hint, void* previousItem, void* item){
+	int value = *(int *)item;
+	*(int *)previousItem += value;
+	return previousItem;
+};
+
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue){
+	for (int i = 0; i < util.length; i++){
+		(*reducer)(hint, intialValue, util.base+i * util.typeSize);
+	}
+	return intialValue;
+};
 
 
 

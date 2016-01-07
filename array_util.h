@@ -23,3 +23,5 @@ void get_square(void* hint, void* sourceItem, void* destinationItem);
 void map(ArrayUtil source, ArrayUtil destination, ConvertFunc*, void* hint);
 void increment_by_10(void* hint, void* item);
 void forEach(ArrayUtil util, OperationFunc*, void* hint);
+void* sum_of_list(void* hint, void* previousItem, void* item);
+void* reduce(ArrayUtil util, ReducerFunc*, void* hint, void* intialValue);
